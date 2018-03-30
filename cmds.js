@@ -134,7 +134,7 @@ exports.addCmd = (socket, rl) => {
 	})
 	.catch(Sequelize.ValidationError, error =>{
 		errorlog(socket, 'El quiz es erroneo:');
-		error.errors.forEach(({message}) => errorlog(message));
+		error.errors.forEach(({message}) => errorlog(socket, message));
 	})
 	.catch(error => {
 		errorlog(socket, error.message);
@@ -194,7 +194,7 @@ exports.editCmd = (socket, rl, id) => {
 	})
 	.catch(Sequelize.ValidationError, error => {
 		errorlog(socket, 'El quiz es erroneo:');
-		error.errors.forEach(({message}) => errorlog(message));
+		error.errors.forEach(({message}) => errorlog(socket, message));
 	})
 	.catch(error => {
 		errorlog(socket, error.message);
@@ -211,7 +211,7 @@ exports.editCmd = (socket, rl, id) => {
 * @param id Clave del quiz a borrar en el modelo.
 */
 exports.testCmd = (socket, rl, id) => {
-		validateId(id)
+	validateId(id)
 	.then(id => models.quiz.findById(id))
 	.then(quiz => {
 		if(!quiz){
